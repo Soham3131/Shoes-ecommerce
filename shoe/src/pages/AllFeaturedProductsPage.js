@@ -178,6 +178,7 @@
 
 
 import React, { useState, useEffect } from "react";
+import apiClient from "../services/apiClient";
 import { useParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -202,25 +203,21 @@ const AllFeaturedProductsPage = () => {
   // mobile drawer state
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchAllFeaturedProducts = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `/products/subcategory/${subCategory}`
-        );
-        if (!response.ok) throw new Error("Failed to fetch products");
-        const data = await response.json();
-        setProducts(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchAllFeaturedProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await apiClient.get(`/products/subcategory/${subCategory}`);
+      setProducts(response.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  if (subCategory) fetchAllFeaturedProducts();
+}, [subCategory]);
 
-    if (subCategory) fetchAllFeaturedProducts();
-  }, [subCategory]);
 
   // When products load, compute global min/max from variants or top-level price
   useEffect(() => {

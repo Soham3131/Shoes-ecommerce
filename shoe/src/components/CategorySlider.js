@@ -149,6 +149,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import apiClient from "../services/apiClient";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -158,21 +159,21 @@ const CategorySlider = () => {
   const [error, setError] = useState(null);
   const sliderRef = useRef(null);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("/categories");
-        if (!response.ok) throw new Error("Failed to fetch categories");
-        const data = await response.json();
-        setCategories(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCategories();
-  }, []);
+useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const response = await apiClient.get("/categories");
+      setCategories(response.data);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchCategories();
+}, []);
+
 
   const scrollLeft = () => {
     sliderRef.current?.scrollBy({ left: -300, behavior: "smooth" });

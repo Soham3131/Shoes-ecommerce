@@ -255,7 +255,8 @@ const AdminDashboard = () => {
             {activeTab === 'completedReturns' && <CompletedCancelledRequests type="completed" />}
             {activeTab === 'cancelledReturns' && <CompletedCancelledRequests type="cancelled" />}
             {activeTab === 'products' && <ProductManagement />}
-            {activeTab === 'users' && <UserManagement onUserListUpdated={fetchAllData} />}
+            {activeTab === 'users' && <UserManagement  />}
+            {/* {activeTab === 'users' && <UserManagement onUserListUpdated={fetchAllData} />} */}
             {activeTab === 'createUser' && <CreateUser onUserCreated={fetchAllData} />}
             {activeTab === 'analytics' && <AnalyticsDashboard />}
             {activeTab === 'completedOrders' && <CompletedOrders refreshFlag={refreshFlag} />}

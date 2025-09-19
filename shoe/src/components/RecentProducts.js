@@ -71,6 +71,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard'; 
 import { BsArrowRight } from 'react-icons/bs';
+import apiClient from '../services/apiClient';
 import LoadingSpinner from './LoadingSpinner';
 
 const RecentProducts = () => {
@@ -78,25 +79,22 @@ const RecentProducts = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchRecentProducts = async () => {
-            try {
-                // Fetch only the 8 most recent products
-                const response = await fetch('/products/recent?limit=8');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch recently added products');
-                }
-                const data = await response.json();
-                setProducts(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+   useEffect(() => {
+  const fetchRecentProducts = async () => {
+    try {
+      // Fetch only the 8 most recent products
+      const { data } = await apiClient.get("/products/recent?limit=8");
+      setProducts(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        fetchRecentProducts();
-    }, []);
+  fetchRecentProducts();
+}, []);
+
 
     if (loading) {
         return <LoadingSpinner />;

@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect, useRef } from "react";
 import apiClient from "../services/apiClient";
 import { Link } from "react-router-dom";
@@ -58,7 +59,7 @@ const ProductCard = ({ product }) => {
 
   const isOutOfStock = product.variants.every((v) => v.countInStock <= 0);
 
-  // Toggle wishlist with auth header fix
+  // ✅ Fixed wishlist toggle
   const toggleWishlist = async () => {
     if (!user) {
       alert("Please login to add to wishlist");
@@ -69,16 +70,9 @@ const ProductCard = ({ product }) => {
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
       if (isWishlisted) {
-        await (
-          `/wishlist/${product._id}`,
-          config
-        );
+        await apiClient.delete(`/wishlist/${product._id}`, config);
       } else {
-        await apiClient.post(
-          `/wishlist/${product._id}`,
-          {},
-          config
-        );
+        await apiClient.post(`/wishlist/${product._id}`, {}, config);
         setHeartAnimation(true);
         setTimeout(() => setHeartAnimation(false), 800);
       }
@@ -179,8 +173,8 @@ const ProductCard = ({ product }) => {
           <Link
             to={`/product/${product._id}`}
             className="relative inline-flex items-center space-x-2 px-4 py-2 rounded-full
-                         bg-white border-2 border-transparent transition-all duration-300
-                         group-hover:border-purple-500/80 group-hover:bg-gradient-to-r from-purple-500/20 to-indigo-500/20"
+                        bg-white border-2 border-transparent transition-all duration-300
+                        group-hover:border-purple-500/80 group-hover:bg-gradient-to-r from-purple-500/20 to-indigo-500/20"
           >
             <span className="relative z-10 text-gray-800 font-semibold text-sm transition-colors duration-300 group-hover:text-purple-600">
               View

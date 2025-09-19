@@ -96,6 +96,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import apiClient from "../services/apiClient";
 import ProductCard from "../components/ProductCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FilterSidebar from "../components/FilterSidebar";
@@ -118,23 +119,22 @@ const AllRecentProductsPage = () => {
   // mobile drawer state
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchAllRecentProducts = async () => {
-      try {
-        setLoading(true);
-        // Fetch only the 20 most recent products
-        const response = await fetch("/products/recent?limit=20");
-        if (!response.ok) throw new Error("Failed to fetch recent products");
-        const data = await response.json();
-        setProducts(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchAllRecentProducts();
-  }, []);
+useEffect(() => {
+  const fetchAllRecentProducts = async () => {
+    try {
+      setLoading(true);
+      // Fetch only the 20 most recent products
+      const { data } = await apiClient.get("/products/recent?limit=20");
+      setProducts(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchAllRecentProducts();
+}, []);
+
 
   // When products load, compute global min/max from variants or top-level price
   useEffect(() => {

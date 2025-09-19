@@ -54,6 +54,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import apiClient from "../services/apiClient";
 import ProductCard from "../components/ProductCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FilterSidebar from "../components/FilterSidebar";
@@ -75,28 +76,22 @@ const CategoryProductsPage = () => {
   });
 
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+useEffect(() => {
+  const fetchProductsByCategory = async () => {
+    try {
+      setLoading(true);
+      const response = await apiClient.get(`/products/category/${categoryId}`);
+      setProducts(response.data);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  useEffect(() => {
-    const fetchProductsByCategory = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `/products/category/${categoryId}`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch products for this category");
-        }
-        const data = await response.json();
-        setProducts(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  if (categoryId) fetchProductsByCategory();
+}, [categoryId]);
 
-    if (categoryId) fetchProductsByCategory();
-  }, [categoryId]);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="text-center py-12 text-red-500">Error: {error}</div>;

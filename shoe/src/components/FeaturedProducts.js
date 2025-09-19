@@ -213,6 +213,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
+import apiClient from "../services/apiClient";
 import { BsArrowRight } from "react-icons/bs";
 import LoadingSpinner from "./LoadingSpinner";
 
@@ -221,26 +222,20 @@ const FeaturedProducts = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchFeaturedProducts = async () => {
-      try {
-        const response = await fetch(
-          "/products/subcategory/featured"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch featured products");
-        }
-        const data = await response.json();
-        setProducts(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchFeaturedProducts = async () => {
+    try {
+      const response = await apiClient.get("/products/subcategory/featured");
+      setProducts(response.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchFeaturedProducts();
+}, []);
 
-    fetchFeaturedProducts();
-  }, []);
 
   if (loading) {
     return <LoadingSpinner />;

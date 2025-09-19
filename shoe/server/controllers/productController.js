@@ -146,7 +146,6 @@ exports.getProductsByCategory = async (req, res) => {
   }
 };
 
-// exports.getProductsBySubCategory = async (req, res) => {
 //   try {
 //     const products = await Product.find({ subCategory: req.params.subCategory }).limit(9);
 //     res.json(products);
