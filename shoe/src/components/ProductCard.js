@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 import { BsArrowRight } from "react-icons/bs";
 import { FaHeart, FaShareAlt } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
-import axios from "axios";
-import { motion, AnimatePresence } from "framer-motion";
+const axios = require("axios");import { motion, AnimatePresence } from "framer-motion";
 
 const ProductCard = ({ product }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);

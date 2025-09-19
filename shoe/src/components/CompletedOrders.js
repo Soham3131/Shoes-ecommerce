@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import moment from 'moment';
 import apiClient from '../services/apiClient';
 

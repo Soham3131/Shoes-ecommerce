@@ -3,8 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-import axios from "axios";
-
+const axios = require("axios");
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');

@@ -1,5 +1,5 @@
 // src/services/productService.js
-import axios from 'axios';
+
 import apiClient from '../services/apiClient';
 const API_URL = '/products';
 

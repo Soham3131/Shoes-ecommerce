@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import DeliveredOrdersAnalytics from '../components/DeliveredOrdersAnalytics';
 import LiveLocationTracker from '../components/LiveLocationTracker';
 import moment from 'moment';

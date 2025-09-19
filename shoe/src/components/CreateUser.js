@@ -1,6 +1,6 @@
 // src/components/CreateUser.js
 import React, { useState } from 'react';
-import axios from 'axios';
+
 
 const CreateUser = ({ onUserCreated }) => {
   const [name, setName] = useState('');

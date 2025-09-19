@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from "react";
 import apiClient from '../services/apiClient';
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { useCart } from "../context/CartContext";
+const axios = require("axios");import { useCart } from "../context/CartContext";
 import {
   FaHeart,
   FaShareAlt,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../services/apiClient';
-import axios from 'axios';
+
 
 const UserManagement = ({ onUserListUpdated }) => {
     const [users, setUsers] = useState([]);

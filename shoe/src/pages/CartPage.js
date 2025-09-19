@@ -1,7 +1,7 @@
 // import React, { useState, useEffect } from 'react';
 // import { useCart } from '../context/CartContext';
 // import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
+// 
 
 // const CartPage = () => {
 //     const { cartItems, removeFromCart, updateCartQuantity, getTotalPrice, clearCart } = useCart();
@@ -235,7 +235,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+
 
 const CartPage = () => {
     const { cartItems, removeFromCart, updateCartQuantity, getTotalPrice, clearCart } = useCart();

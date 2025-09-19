@@ -1,5 +1,5 @@
 // // src/services/apiClient.js
-// import axios from 'axios';
+// 
 
 // const apiClient = axios.create({
 //   baseURL: '', // Set a base URL to simplify requests
@@ -57,7 +57,8 @@
 // export default apiClient;
 
 // src/services/apiClient.js
-import axios from 'axios';
+
+import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL || '',

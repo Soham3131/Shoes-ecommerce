@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import apiClient from '../services/apiClient';
-import axios from 'axios';
+
 import ProductManagement from '../components/ProductManagement';
 import UserManagement from '../components/UserManagement';
 import CreateUser from '../components/CreateUser';
