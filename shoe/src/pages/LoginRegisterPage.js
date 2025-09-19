@@ -1,6 +1,6 @@
-
+import apiClient from '../services/apiClient';
 import React, { useState } from "react";
-const axios = require("axios");import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 
 const LoginRegisterPage = () => {

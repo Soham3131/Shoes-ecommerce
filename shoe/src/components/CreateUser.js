@@ -1,7 +1,7 @@
 // src/components/CreateUser.js
 import React, { useState } from 'react';
 
-
+import apiClient from '../services/apiClient';
 const CreateUser = ({ onUserCreated }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

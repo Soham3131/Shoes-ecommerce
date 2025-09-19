@@ -236,7 +236,7 @@ import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 
-
+import apiClient from '../services/apiClient';
 const CartPage = () => {
     const { cartItems, removeFromCart, updateCartQuantity, getTotalPrice, clearCart } = useCart();
     const navigate = useNavigate();
