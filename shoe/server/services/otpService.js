@@ -25,3 +25,34 @@ const sendOTP = async (email, otp) => {
 };
 
 module.exports = { sendOTP };
+
+// {
+//   "name": "server",
+//   "version": "1.0.0",
+//   "main": "server.js",
+//   "scripts": {
+//     "start": "node src/server.js",
+//     "dev": "nodemon src/server.js"
+//   },
+//   "keywords": [],
+//   "author": "",
+//   "license": "ISC",
+//   "description": "",
+//   "dependencies": {
+//     "bcryptjs": "^3.0.2",
+//     "cloudinary": "^2.7.0",
+//     "cookie-parser": "^1.4.7",
+//     "dotenv": "^17.2.2",
+//     "express": "^5.1.0",
+//     "jsonwebtoken": "^9.0.2",
+//     "moment": "^2.30.1",
+//     "mongoose": "^8.18.1",
+//     "multer": "^2.0.2",
+//     "nodemailer": "^7.0.6",
+//     "razorpay": "^2.9.6",
+//     "socket.io": "^4.8.1"
+//   },
+//   "devDependencies": {
+//     "nodemon": "^3.1.10"
+//   }
+// }
