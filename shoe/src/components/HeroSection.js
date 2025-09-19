@@ -255,9 +255,7 @@ const HeroSection = () => {
                 <directionalLight position={[5, 5, 5]} intensity={1} />
                 <ShoeModel path={currentContent.path} />
                 <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={2} />
-                {/* <Environment preset="studio" /> */}
-                {/* <Environment background={false} /> */}
-
+                <Environment preset="studio" />
               </Canvas>
             </Suspense>
           </div>
