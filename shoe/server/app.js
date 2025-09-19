@@ -20,9 +20,23 @@ const wishlistRoutes = require('./routes/wishlistRoutes');
 // Middleware
 app.use(express.json());
 app.use(cookieParser());  // ⬅️ enable cookies
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://shoes-ecommerce-sohams-projects-32d50290.vercel.app",
+  "https://shoes-ecommerce-iota.vercel.app"
+];
+
 app.use(cors({
-    origin: 'http://localhost:3000', // your frontend URL
-    credentials: true,               // ⬅️ allow cookies from frontend
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps, curl, Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
 
 
@@ -44,4 +58,4 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Rohtak Shoes E-commerce Backend!');
 });
 
-module.exports = app;
+module.exports = {app,allowedOrigins}

@@ -1,5 +1,5 @@
 // src/server.js
-const app = require('./app');
+const { app, allowedOrigins } = require('./app'); // import bot
 const mongoose = require('mongoose');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -8,11 +8,19 @@ const Delivery = require('./models/Delivery'); // ADD THIS LINE
 
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
+// const io = new Server(server, {
+//     cors: {
+//         origin: '*',
+//     }
+// });
+
 const io = new Server(server, {
-    cors: {
-        origin: '*',
-    }
+  cors: {
+    origin: allowedOrigins,
+    credentials: true
+  }
 });
+
 
 io.on('connection', (socket) => {
     console.log('A user connected with Socket.IO:', socket.id);
