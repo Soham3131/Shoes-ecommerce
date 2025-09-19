@@ -19,7 +19,7 @@ const SignupPage = () => {
         setMessage('');
         setIsError(false);
         try {
-            await axios.post('http://localhost:5000/api/auth/request-otp', { email });
+            await apiClient.post('/auth/request-otp', { email });
             setMessage('OTP sent to your email.');
             setIsOtpSent(true);
         } catch (err) {
@@ -35,10 +35,10 @@ const SignupPage = () => {
         setIsError(false);
         try {
             // First, verify the OTP
-            await axios.post('http://localhost:5000/api/auth/verify-otp', { email, otp });
+            await apiClient.post('/auth/verify-otp', { email, otp });
 
             // If OTP is valid, proceed with signup
-            const { data } = await axios.post('http://localhost:5000/api/auth/signup', { name, email, password, phone });
+            const { data } = await apiClient.post('/auth/signup', { name, email, password, phone });
 
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));

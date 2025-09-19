@@ -13,7 +13,7 @@
 //       try {
 //         setLoading(true);
 //         // Correctly fetch from the new backend route
-//         const response = await fetch(`http://localhost:5000/api/products/category/${categoryId}`);
+//         const response = await fetch(`/products/category/${categoryId}`);
 //         if (!response.ok) {
 //           throw new Error('Failed to fetch products for this category');
 //         }
@@ -81,7 +81,7 @@ const CategoryProductsPage = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:5000/api/products/category/${categoryId}`
+          `/products/category/${categoryId}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch products for this category");

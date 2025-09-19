@@ -5,6 +5,7 @@ import axios from 'axios';
 import DeliveredOrdersAnalytics from '../components/DeliveredOrdersAnalytics';
 import LiveLocationTracker from '../components/LiveLocationTracker';
 import moment from 'moment';
+import apiClient from '../services/apiClient';
 
 const DeliveryDashboard = () => {
     const [assignedDeliveries, setAssignedDeliveries] = useState([]);
@@ -21,27 +22,30 @@ const DeliveryDashboard = () => {
     const [filterMonth, setFilterMonth] = useState('');
     const [filterYear, setFilterYear] = useState('');
 
-    const fetchAllData = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const [assignedRes, deliveredRes, cancelledRes, pickupsRes, completedPickupsRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/delivery/my-deliveries', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/delivery/delivered-orders', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/delivery/cancelled-orders', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/return-replace/my-pickups', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get(`http://localhost:5000/api/return-replace/my-pickups/completed?month=${filterMonth}&year=${filterYear}`, { headers: { Authorization: `Bearer ${token}` } }),
-            ]);
-            setAssignedDeliveries(assignedRes.data);
-            setDeliveredOrders(deliveredRes.data);
-            setCancelledOrders(cancelledRes.data);
-            setAssignedPickups(pickupsRes.data);
-            setCompletedPickups(completedPickupsRes.data);
-        } catch (err) {
-            setError('Failed to fetch data.');
-        } finally {
-            setLoading(false);
-        }
-    };
+   const fetchAllData = async () => {
+    setLoading(true);
+    try {
+        const [assignedRes, deliveredRes, cancelledRes, pickupsRes, completedPickupsRes] = await Promise.all([
+            apiClient.get('/delivery/my-deliveries'),
+            apiClient.get('/delivery/delivered-orders'),
+            apiClient.get('/delivery/cancelled-orders'),
+            apiClient.get('/return-replace/my-pickups'),
+            apiClient.get(`/return-replace/my-pickups/completed?month=${filterMonth}&year=${filterYear}`),
+        ]);
+
+        setAssignedDeliveries(assignedRes.data);
+        setDeliveredOrders(deliveredRes.data);
+        setCancelledOrders(cancelledRes.data);
+        setAssignedPickups(pickupsRes.data);
+        setCompletedPickups(completedPickupsRes.data);
+    } catch (err) {
+        setError('Failed to fetch data.');
+        console.error(err.response?.data?.message || err.message);
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     useEffect(() => {
         fetchAllData();
@@ -52,8 +56,8 @@ const DeliveryDashboard = () => {
         if (status === 'out for delivery') {
             try {
                 const token = localStorage.getItem('token');
-                await axios.post(
-                    'http://localhost:5000/api/delivery/update-status',
+                await apiClient.post(
+                    '/delivery/update-status',
                     { orderId: delivery.order._id, status },
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
@@ -65,7 +69,7 @@ const DeliveryDashboard = () => {
         } else {
             try {
                 const token = localStorage.getItem('token');
-                await axios.post('http://localhost:5000/api/delivery/send-otp', { orderId: delivery.order._id }, { headers: { Authorization: `Bearer ${token}` } });
+                await apiClient.post('/delivery/send-otp', { orderId: delivery.order._id }, { headers: { Authorization: `Bearer ${token}` } });
                 setShowOtpModal(true);
                 alert('OTP sent to customer.');
             } catch (error) {
@@ -78,8 +82,8 @@ const DeliveryDashboard = () => {
         if (!otpInput || !currentDelivery) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.post(
-                'http://localhost:5000/api/delivery/update-status',
+            await apiClient.post(
+                '/delivery/update-status',
                 {
                     orderId: currentDelivery.order._id,
                     otp: otpInput,
@@ -99,8 +103,8 @@ const DeliveryDashboard = () => {
     const handlePickupStatusChange = async (pickup, status) => {
       try {
         const token = localStorage.getItem('token');
-        await axios.post(
-          'http://localhost:5000/api/return-replace/pickup-status',
+        await apiClient.post(
+          '/return-replace/pickup-status',
           { requestId: pickup._id, status },
           { headers: { Authorization: `Bearer ${token}` } }
         );

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import moment from 'moment';
+import apiClient from '../services/apiClient';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -16,24 +17,24 @@ const AnalyticsDashboard = () => {
     const [selectedYear, setSelectedYear] = useState(moment().year());
     const [cancelledOrders, setCancelledOrders] = useState([]);
 
-    const fetchAnalytics = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const [todayRes, dailyRes, cancelledRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/analytics/today', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get(`http://localhost:5000/api/analytics/daily?month=${selectedMonth}&year=${selectedYear}`, { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/orders/cancelled', { headers: { Authorization: `Bearer ${token}` } }),
-            ]);
-            setTodayData(todayRes.data);
-            setDailySalesData(dailyRes.data);
-            setCancelledOrders(cancelledRes.data);
-        } catch (err) {
-            setError('Failed to fetch analytics data.');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
+ const fetchAnalytics = async () => {
+  try {
+    const [todayRes, dailyRes, cancelledRes] = await Promise.all([
+      apiClient.get('/analytics/today'),
+      apiClient.get(`/analytics/daily?month=${selectedMonth}&year=${selectedYear}`),
+      apiClient.get('/orders/cancelled'),
+    ]);
+    setTodayData(todayRes.data);
+    setDailySalesData(dailyRes.data);
+    setCancelledOrders(cancelledRes.data);
+  } catch (err) {
+    setError('Failed to fetch analytics data.');
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     useEffect(() => {
         fetchAnalytics();

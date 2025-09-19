@@ -14,7 +14,7 @@ const CreateUser = ({ onUserCreated }) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      await axios.post('http://localhost:5000/api/auth/signup', { name, email, password, phone, role }, {
+      await apiClient.post('/auth/signup', { name, email, password, phone, role }, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       setMessage('User created successfully!');

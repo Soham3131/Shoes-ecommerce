@@ -11,7 +11,7 @@
 //     useEffect(() => {
 //         const fetchRecentProducts = async () => {
 //             try {
-//                 const response = await fetch('http://localhost:5000/api/products/recent');
+//                 const response = await fetch('/products/recent');
 //                 if (!response.ok) {
 //                     throw new Error('Failed to fetch recently added products');
 //                 }
@@ -82,7 +82,7 @@ const RecentProducts = () => {
         const fetchRecentProducts = async () => {
             try {
                 // Fetch only the 8 most recent products
-                const response = await fetch('http://localhost:5000/api/products/recent?limit=8');
+                const response = await fetch('/products/recent?limit=8');
                 if (!response.ok) {
                     throw new Error('Failed to fetch recently added products');
                 }

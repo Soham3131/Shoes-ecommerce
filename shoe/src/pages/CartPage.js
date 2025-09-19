@@ -64,10 +64,10 @@
 //                 },
 //             };
 
-//             const orderResponse = await axios.post('http://localhost:5000/api/orders', orderData, config);
+//             const orderResponse = await apiClient.post('/orders', orderData, config);
 //             const createdOrder = orderResponse.data;
             
-//             const razorpayResponse = await axios.post(`http://localhost:5000/api/orders/${createdOrder._id}/razorpay`, {}, config);
+//             const razorpayResponse = await apiClient.post(`/orders/${createdOrder._id}/razorpay`, {}, config);
 //             const razorpayOrder = razorpayResponse.data;
 
 //             const options = {
@@ -78,8 +78,8 @@
 //                 description: `Order #${createdOrder.orderNumber}`,
 //                 order_id: razorpayOrder.id,
 //                 handler: async function (response) {
-//                     await axios.post(
-//                         `http://localhost:5000/api/orders/${createdOrder._id}/verify-payment`,
+//                     await apiClient.post(
+//                         `/orders/${createdOrder._id}/verify-payment`,
 //                         response,
 //                         config
 //                     );
@@ -299,10 +299,10 @@ const CartPage = () => {
                 },
             };
 
-            const orderResponse = await axios.post('http://localhost:5000/api/orders', orderData, config);
+            const orderResponse = await apiClient.post('/orders', orderData, config);
             const createdOrder = orderResponse.data;
             
-            const razorpayResponse = await axios.post(`http://localhost:5000/api/orders/${createdOrder._id}/razorpay`, {}, config);
+            const razorpayResponse = await apiClient.post(`/orders/${createdOrder._id}/razorpay`, {}, config);
             const razorpayOrder = razorpayResponse.data;
 
             const options = {
@@ -313,8 +313,8 @@ const CartPage = () => {
                 description: `Order #${createdOrder.orderNumber}`,
                 order_id: razorpayOrder.id,
                 handler: async function (response) {
-                    await axios.post(
-                        `http://localhost:5000/api/orders/${createdOrder._id}/verify-payment`,
+                    await apiClient.post(
+                        `/orders/${createdOrder._id}/verify-payment`,
                         response,
                         config
                     );

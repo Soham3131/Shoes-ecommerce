@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import apiClient from '../services/apiClient';
 
 const CompletedCancelledRequests = ({ type }) => {
     const [requests, setRequests] = useState([]);
@@ -16,8 +17,8 @@ const CompletedCancelledRequests = ({ type }) => {
         try {
             const token = localStorage.getItem('token');
             const endpoint = type === 'completed' ? 'completed' : 'cancelled';
-            const response = await axios.get(
-                `http://localhost:5000/api/return-replace/admin/${endpoint}?month=${filterMonth}&year=${filterYear}`,
+            const response = await apiClient.get(
+                `/return-replace/admin/${endpoint}?month=${filterMonth}&year=${filterYear}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setRequests(response.data);
@@ -27,6 +28,7 @@ const CompletedCancelledRequests = ({ type }) => {
             setLoading(false);
         }
     };
+
 
     useEffect(() => {
         fetchRequests();

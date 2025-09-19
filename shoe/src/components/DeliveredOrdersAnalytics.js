@@ -1,6 +1,7 @@
 // src/components/DeliveredOrdersAnalytics.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import apiClient from '../services/apiClient';
 import moment from 'moment';
 
 const DeliveredOrdersAnalytics = () => {
@@ -11,25 +12,25 @@ const DeliveredOrdersAnalytics = () => {
     const [selectedMonth, setSelectedMonth] = useState(moment().month() + 1);
     const [selectedYear, setSelectedYear] = useState(moment().year());
 
-    const fetchDeliveredOrders = async () => {
-        setLoading(true);
-        try {
-            const token = localStorage.getItem('token');
-            const [monthlyRes, todayRes] = await Promise.all([
-                axios.get(`http://localhost:5000/api/delivery/delivered-orders?month=${selectedMonth}&year=${selectedYear}`, { headers: { Authorization: `Bearer ${token}` } }),
-                // New logic for today's delivered orders
-                axios.get(`http://localhost:5000/api/delivery/delivered-orders?day=${moment().date()}&month=${moment().month() + 1}&year=${moment().year()}`, { headers: { Authorization: `Bearer ${token}` } })
-            ]);
+  const fetchDeliveredOrders = async () => {
+    setLoading(true);
+    try {
+        const [monthlyRes, todayRes] = await Promise.all([
+            apiClient.get(`/delivery/delivered-orders?month=${selectedMonth}&year=${selectedYear}`),
+            apiClient.get(
+                `/delivery/delivered-orders?day=${moment().date()}&month=${moment().month() + 1}&year=${moment().year()}`
+            )
+        ]);
 
-            setDeliveredOrders(monthlyRes.data);
-            setTodayDeliveredCount(todayRes.data.length);
-        } catch (err) {
-            setError('Failed to fetch delivered orders.');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
+        setDeliveredOrders(monthlyRes.data);
+        setTodayDeliveredCount(todayRes.data.length);
+    } catch (err) {
+        setError('Failed to fetch delivered orders.');
+        console.error(err.response?.data?.message || err.message);
+    } finally {
+        setLoading(false);
+    }
+};
 
     useEffect(() => {
         fetchDeliveredOrders();

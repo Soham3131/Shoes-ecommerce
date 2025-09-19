@@ -25,10 +25,10 @@
 //         try {
 //             const token = localStorage.getItem('token');
 //             const [ordersRes, requestsRes] = await Promise.all([
-//                 axios.get('http://localhost:5000/api/orders/myorders', {
+//                 apiClient.get('/orders/myorders', {
 //                     headers: { Authorization: `Bearer ${token}` },
 //                 }),
-//                 axios.get('http://localhost:5000/api/return-replace/my-requests', {
+//                 apiClient.get('/return-replace/my-requests', {
 //                     headers: { Authorization: `Bearer ${token}` },
 //                 }),
 //             ]);
@@ -59,8 +59,8 @@
 //                     console.error('Product ID is missing.');
 //                     return;
 //                 }
-//                 const productDetailsRes = await axios.get(
-//                     `http://localhost:5000/api/products/${productId}`
+//                 const productDetailsRes = await apiClient.get(
+//                     `/products/${productId}`
 //                 );
 //                 const availableVariants = productDetailsRes.data.variants.filter(
 //                     (v) => v.countInStock > 0
@@ -99,7 +99,7 @@
 //                 };
 //             }
 
-//             await axios.post('http://localhost:5000/api/return-replace/request', payload, {
+//             await apiClient.post('/return-replace/request', payload, {
 //                 headers: { Authorization: `Bearer ${token}` },
 //             });
 
@@ -115,8 +115,8 @@
 //         if (window.confirm('Are you sure you want to cancel this request?')) {
 //             try {
 //                 const token = localStorage.getItem('token');
-//                 await axios.post(
-//                     'http://localhost:5000/api/return-replace/cancel-request',
+//                 await apiClient.post(
+//                     '/return-replace/cancel-request',
 //                     { requestId },
 //                     { headers: { Authorization: `Bearer ${token}` } }
 //                 );
@@ -353,6 +353,7 @@
 // export default MyOrdersPage;
 
 import React, { useState, useEffect } from 'react';
+import apiClient from '../services/apiClient';
 import axios from 'axios';
 import moment from 'moment';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -377,10 +378,10 @@ const MyOrdersPage = () => {
         try {
             const token = localStorage.getItem('token');
             const [ordersRes, requestsRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/orders/myorders', {
+                apiClient.get('/orders/myorders', {
                     headers: { Authorization: `Bearer ${token}` },
                 }),
-                axios.get('http://localhost:5000/api/return-replace/my-requests', {
+                apiClient.get('/return-replace/my-requests', {
                     headers: { Authorization: `Bearer ${token}` },
                 }),
             ]);
@@ -411,8 +412,8 @@ const MyOrdersPage = () => {
                     console.error('Product ID is missing.');
                     return;
                 }
-                const productDetailsRes = await axios.get(
-                    `http://localhost:5000/api/products/${productId}`
+                const productDetailsRes = await apiClient.get(
+                    `/products/${productId}`
                 );
                 const availableVariants = productDetailsRes.data.variants.filter(
                     (v) => v.countInStock > 0
@@ -451,7 +452,7 @@ const MyOrdersPage = () => {
                 };
             }
 
-            await axios.post('http://localhost:5000/api/return-replace/request', payload, {
+            await apiClient.post('/return-replace/request', payload, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -467,8 +468,8 @@ const MyOrdersPage = () => {
         if (window.confirm('Are you sure you want to cancel this request?')) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.post(
-                    'http://localhost:5000/api/return-replace/cancel-request',
+                await apiClient.post(
+                    '/return-replace/cancel-request',
                     { requestId },
                     { headers: { Authorization: `Bearer ${token}` } }
                 );

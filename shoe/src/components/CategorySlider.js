@@ -19,7 +19,7 @@
 //   useEffect(() => {
 //     const fetchCategories = async () => {
 //       try {
-//         const response = await fetch("http://localhost:5000/api/categories");
+//         const response = await fetch("/categories");
 //         if (!response.ok) throw new Error("Failed to fetch categories");
 //         const data = await response.json();
 //         setCategories(data);
@@ -161,7 +161,7 @@ const CategorySlider = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/categories");
+        const response = await fetch("/categories");
         if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
         setCategories(data);

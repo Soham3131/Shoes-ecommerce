@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import apiClient from '../services/apiClient';
 
 const CompletedOrders = ({ refreshFlag }) => {
     const [completedOrders, setCompletedOrders] = useState([]);
@@ -11,25 +12,28 @@ const CompletedOrders = ({ refreshFlag }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredOrders, setFilteredOrders] = useState([]);
 
-    const fetchCompletedOrders = async () => {
-        console.log('Attempting to fetch completed orders...');
-        setLoading(true);
-        try {
-            const token = localStorage.getItem('token');
-            const url = `http://localhost:5000/api/orders/completed?month=${selectedMonth}&year=${selectedYear}`;
-            console.log('Fetching from URL:', url);
-            const response = await axios.get(url, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            console.log('API call successful. Data received:', response.data);
-            setCompletedOrders(response.data);
-        } catch (err) {
-            console.error('Failed to fetch completed orders. Error:', err.response?.data?.message || err.message);
-            setError('Failed to fetch completed orders.');
-        } finally {
-            setLoading(false);
-        }
-    };
+  const fetchCompletedOrders = async () => {
+    console.log('Attempting to fetch completed orders...');
+    setLoading(true);
+    try {
+        const url = `/orders/completed?month=${selectedMonth}&year=${selectedYear}`;
+        console.log('Fetching from URL:', url);
+
+        const response = await apiClient.get(url);
+
+        console.log('API call successful. Data received:', response.data);
+        setCompletedOrders(response.data);
+    } catch (err) {
+        console.error(
+            'Failed to fetch completed orders. Error:',
+            err.response?.data?.message || err.message
+        );
+        setError('Failed to fetch completed orders.');
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     useEffect(() => {
         console.log('useEffect triggered. Refresh flag:', refreshFlag);
@@ -57,8 +61,8 @@ const CompletedOrders = ({ refreshFlag }) => {
         console.log('Reverting status for order:', orderId);
         try {
             const token = localStorage.getItem('token');
-            await axios.post(
-                'http://localhost:5000/api/orders/revert-status',
+            await apiClient.post(
+                '/orders/revert-status',
                 { orderId, status: 'pending' },
                 { headers: { 'Authorization': `Bearer ${token}` } }
             );

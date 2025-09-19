@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import apiClient from '../services/apiClient';
 import axios from 'axios';
 
 const UserManagement = ({ onUserListUpdated }) => {
@@ -9,21 +10,20 @@ const UserManagement = ({ onUserListUpdated }) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const fetchUsers = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:5000/api/users', { // Correct API endpoint
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            setUsers(response.data);
-            if (onUserListUpdated) {
-                onUserListUpdated();
-            }
-        } catch (error) {
-            console.error('Failed to fetch users:', error);
-        } finally {
-            setLoading(false);
+    setLoading(true);
+    try {
+        const response = await apiClient.get('/users'); // token auto-attached by apiClient
+        setUsers(response.data);
+        if (onUserListUpdated) {
+            onUserListUpdated();
         }
-    };
+    } catch (error) {
+        console.error('Failed to fetch users:', error.response?.data?.message || error.message);
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     useEffect(() => {
         fetchUsers();
@@ -55,7 +55,7 @@ const UserManagement = ({ onUserListUpdated }) => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/users/${userId}`, {
+            await (`/users/${userId}`, {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
             alert('User deleted successfully!');

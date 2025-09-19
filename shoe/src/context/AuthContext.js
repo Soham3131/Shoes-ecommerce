@@ -48,7 +48,7 @@
 //   const fetchWishlist = async () => {
 //     setWishlistLoading(true);
 //     try {
-//       const { data } = await axios.get("http://localhost:5000/api/wishlist");
+//       const { data } = await apiClient.get("/wishlist");
 //       setWishlist(data || []);
 //     } catch (err) {
 //       console.error("Error fetching wishlist", err);

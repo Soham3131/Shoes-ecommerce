@@ -14,7 +14,7 @@
 //         const fetchFeaturedProducts = async () => {
 //             try {
 //                 // Fetch products with the subCategory "featured"
-//                 const response = await fetch('http://localhost:5000/api/products/subcategory/featured');
+//                 const response = await fetch('/products/subcategory/featured');
 //                 if (!response.ok) {
 //                     throw new Error('Failed to fetch featured products');
 //                 }
@@ -132,7 +132,7 @@
 //     const fetchFeaturedProducts = async () => {
 //       try {
 //         const response = await fetch(
-//           "http://localhost:5000/api/products/subcategory/featured"
+//           "/products/subcategory/featured"
 //         );
 //         if (!response.ok) {
 //           throw new Error("Failed to fetch featured products");
@@ -225,7 +225,7 @@ const FeaturedProducts = () => {
     const fetchFeaturedProducts = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/products/subcategory/featured"
+          "/products/subcategory/featured"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch featured products");

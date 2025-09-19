@@ -15,7 +15,7 @@
 //       try {
 //         setLoading(true);
 //         const response = await fetch(
-//           "http://localhost:5000/api/products/recent?limit=all"
+//           "/products/recent?limit=all"
 //         );
 //         if (!response.ok) throw new Error("Failed to fetch recent products");
 //         const data = await response.json();
@@ -123,7 +123,7 @@ const AllRecentProductsPage = () => {
       try {
         setLoading(true);
         // Fetch only the 20 most recent products
-        const response = await fetch("http://localhost:5000/api/products/recent?limit=20");
+        const response = await fetch("/products/recent?limit=20");
         if (!response.ok) throw new Error("Failed to fetch recent products");
         const data = await response.json();
         setProducts(data);

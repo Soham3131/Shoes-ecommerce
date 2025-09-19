@@ -19,7 +19,7 @@ const SearchResultsPage = () => {
             }
             try {
                 setLoading(true);
-                const response = await fetch(`http://localhost:5000/api/products/search?keyword=${query}`);
+                const response = await fetch(`/products/search?keyword=${query}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch search results.');
                 }

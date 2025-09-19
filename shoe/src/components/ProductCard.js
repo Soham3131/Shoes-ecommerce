@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
+import apiClient from "../services/apiClient";
 import { Link } from "react-router-dom";
 import { BsArrowRight } from "react-icons/bs";
 import { FaHeart, FaShareAlt } from "react-icons/fa";
@@ -69,13 +70,13 @@ const ProductCard = ({ product }) => {
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
       if (isWishlisted) {
-        await axios.delete(
-          `http://localhost:5000/api/wishlist/${product._id}`,
+        await (
+          `/wishlist/${product._id}`,
           config
         );
       } else {
-        await axios.post(
-          `http://localhost:5000/api/wishlist/${product._id}`,
+        await apiClient.post(
+          `/wishlist/${product._id}`,
           {},
           config
         );

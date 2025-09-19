@@ -28,7 +28,7 @@ const LoginRegisterPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:5000/api/auth/login", {
+      const { data } = await apiClient.post("/auth/login", {
         email: loginEmail,
         password: loginPassword,
       });
@@ -44,7 +44,7 @@ const LoginRegisterPage = () => {
   const handleRequestOtp = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/request-otp", {
+      await apiClient.post("/auth/request-otp", {
         email: signupEmail,
       });
       setSignupMessage("OTP sent to your email.");
@@ -60,11 +60,11 @@ const LoginRegisterPage = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/verify-otp", {
+      await apiClient.post("/auth/verify-otp", {
         email: signupEmail,
         otp,
       });
-      const { data } = await axios.post("http://localhost:5000/api/auth/signup", {
+      const { data } = await apiClient.post("/auth/signup", {
         name,
         email: signupEmail,
         password: signupPassword,

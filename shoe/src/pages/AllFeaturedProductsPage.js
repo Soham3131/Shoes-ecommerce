@@ -13,7 +13,7 @@
 //         const fetchAllFeaturedProducts = async () => {
 //             try {
 //                 setLoading(true);
-//                 const response = await fetch(`http://localhost:5000/api/products/subcategory/${subCategory}`);
+//                 const response = await fetch(`/products/subcategory/${subCategory}`);
 //                 if (!response.ok) {
 //                     throw new Error('Failed to fetch products');
 //                 }
@@ -84,7 +84,7 @@
 //       try {
 //         setLoading(true);
 //         const response = await fetch(
-//           `http://localhost:5000/api/products/subcategory/${subCategory}`
+//           `/products/subcategory/${subCategory}`
 //         );
 //         if (!response.ok) throw new Error("Failed to fetch products");
 //         const data = await response.json();
@@ -207,7 +207,7 @@ const AllFeaturedProductsPage = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:5000/api/products/subcategory/${subCategory}`
+          `/products/subcategory/${subCategory}`
         );
         if (!response.ok) throw new Error("Failed to fetch products");
         const data = await response.json();

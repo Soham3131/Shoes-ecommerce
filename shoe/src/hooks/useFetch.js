@@ -10,7 +10,7 @@ const useFetch = (url) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(url);
+                const response = await apiClient.get(url);
                 setData(response.data);
             } catch (err) {
                 setError(err);

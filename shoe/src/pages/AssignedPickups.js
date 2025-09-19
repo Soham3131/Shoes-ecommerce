@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import apiClient from '../services/apiClient';
 import moment from 'moment';
 
 const AssignedPickups = () => {
@@ -7,20 +8,19 @@ const AssignedPickups = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const fetchAssignedPickups = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:5000/api/return-replace/admin/assigned-pickups', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            setPickups(response.data);
-        } catch (err) {
-            setError('Failed to fetch assigned pickups.');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
+   const fetchAssignedPickups = async () => {
+    setLoading(true);
+    try {
+        const response = await apiClient.get('/return-replace/admin/assigned-pickups');
+        setPickups(response.data);
+    } catch (err) {
+        setError('Failed to fetch assigned pickups.');
+        console.error(err.response?.data?.message || err.message);
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     useEffect(() => {
         fetchAssignedPickups();
